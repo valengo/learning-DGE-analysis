@@ -32,7 +32,7 @@ dge_list <- edgeR::estimateTagwiseDisp(dge_list)
 exact_test <- edgeR::exactTest(dge_list)
 
 # Create a table of the top differentially expressed genes/tags
-# Using n = Inf to return all genes instead of only the top 10
+# Using n = Inf (Infinite) to return all genes instead of only the top 10
 # Resulting table is sorted by p-value
 top_genes <- edgeR::topTags(exact_test, n = Inf)
 
