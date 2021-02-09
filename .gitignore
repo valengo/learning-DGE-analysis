@@ -1,3 +1,9 @@
+# Project files
+GDCdata
+Tables
+renv
+.idea
+
 # History files
 .Rhistory
 .Rapp.history
