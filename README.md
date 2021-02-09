@@ -11,5 +11,5 @@ This project is set to use the [renv package](https://rstudio.github.io/renv/art
 ### 🔗 01-project-setup.R
 ### 🔗 02-TCGA-preprocess.R
 ### 🔗 03-edger-analysis.R 
-## How to get started?
+# 🚀 Getting started
 Open the project using [Rstudio](https://rstudio.com) or [PyCharm](https://www.jetbrains.com/pycharm/) with the [R plugin](https://www.jetbrains.com/help/pycharm/r-plugin-support.html) installed. Pay attention to the recommended sequence when using the scripts (00, 01 and so on). Before running any code, try to read each comment to grasp what is going on and how you're achieving the results you're observing. 
