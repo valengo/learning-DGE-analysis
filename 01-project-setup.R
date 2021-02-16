@@ -1,28 +1,38 @@
-# Title     : Project setup
-# Objective : A place to organize TCGA project ID and file prefixes
+# Title     : Configurações do Projeto
+# Objective : Organizar o ID do projeto TCGA de interesse e prefixos de nomes de arquivos
 # Created by: valengo
 # Created on: 09/02/21
 
-# ID for TCGA project of interest
-# The ID is used to query and download data from TCGA's server
-# Find project's IDs on https://portal.gdc.cancer.gov/projects
+# ID TCGA do projeto de interesse.
+# O ID é utilizado para buscar e baixar dados do servidor do GDC.
+# Encontre projetos e seus IDs em https://portal.gdc.cancer.gov/projects.
 TCGA_project <- "TCGA-CESC"
 
-# These prefixes are used to make sure we don't mix filenames while conducting our analysis
+# Esses prefixos são utilizados para tentar garantir que
+# não vamos misturar os nomes dos arquivos nas nossas anaálises
 tumor_prefix <- "_tumor_count.txt"
 normal_prefix <- "_normal_count.txt"
 
-# Tumor data path and filenames
-tumor_data_path <- paste("GDCdata", "Tumor", sep = "/")
+# Nome de pasta e arquivos relacionados aos dados de tumor.
+# Nós utilizamos diversas vezes as funções paste e paste0 para concatenar strings
+# de forma a criar os nomes dos arquivos e seus caminhos.
+GDC_data_dir <- "../GDCdata"
+tumor_data_path <- paste(GDC_data_dir, "Tumor", sep = "/")
 tumor_filename <-  paste0(TCGA_project, tumor_prefix)
 
-# Normal data path and filenames
-normal_data_path <- paste("GDCdata", "Normal", sep = "/")
+# Nome de pasta e arquivos relacionados aos dados de normais.
+normal_data_path <- paste(GDC_data_dir, "Normal", sep = "/")
 normal_file_name <- paste0(TCGA_project, normal_prefix)
 
-# Create a dir to export our tables
-dir.create("Tables")
+# Cria um diretório com o nome "Tables" para salvar dados e resultados em arquivos.
+tables_dir <- "../Tables"
+dir.create(tables_dir)
 
-count_table_filename <- paste("Tables", paste0(TCGA_project,  "-TumorXNormal.tsv"), sep="/")
-groups_filename <- paste("Tables", paste0(TCGA_project, "-groups.tsv"), sep = "/")
+# Define nome para arquivo da tabela de contagem de reads por gene.
+# Essa tabela será gerada durante a fase de pré-processamento dos dados.
+count_table_filename <- paste(tables_dir, paste0(TCGA_project,  "-TumorXNormal.tsv"), sep="/")
+
+# Define nome para arquivo da tabela de grupos das amostras (tumor ou normal).
+# Essa tabela será gerada durante a fase de pré-processamento dos dados.
+groups_filename <- paste(tables_dir, paste0(TCGA_project, "-groups.tsv"), sep = "/")
 

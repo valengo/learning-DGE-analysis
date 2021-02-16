@@ -1,41 +1,50 @@
-# Title     : Differential expression analysis with EdgeR
-# Objective : To employ EdgeR for differential expression analysis
+# Title     : Análise de expressão diferencial com edgeR
+# Objective : Aplicar o pacote edgeR para fazer análise de expressão diferencial de genes
 # Created by: valengo
 # Created on: 09/02/21
 
+# Carrega o arquivo com as variáveis que definimos para esse projeto. Ex: o ID do projeto TCGA de interesse.
+# Se você já fez isso nessa sessão, não precisa repetir
 source("01-project-setup.R")
 
-# Loading data from files created with 02-TCGA-preprocess
+# Lê as tabelas que criamos e salvamos em arquivos na fase de pré-processamento
+# dos dados do TCGA.
 count_table <- read.table(count_table_filename)
+
+# Lê os dados de grupos que cada amostra na tabela count_table pertence.
+# Essa lista também foi gerada na fase de pré-processamento.
 groups_file_connection <- file(groups_filename)
 groups <- readLines(groups_file_connection)
 close(groups_file_connection)
 
-# Employ EdgeR to perform differential expression analysis
-# using our data matrix as input together with the list of groups (tumor vs normal)
+# Começa a usar edgeR para análise de expressão gênica passando a tabela
+# de contagem de leituras e a lista de grupos como entrada.
+# Essa função basicamente serve para construir um objeto que vai armazenar
+# os dados necessários para análise e outros dados intermediários que serão gerados durante esse processo.
 dge_list <- edgeR::DGEList(count_table, group = groups)
 
-# From docs: filterByExpr function implements the filtering strategy that was intuitively described by Chen et al (2016).
-# Roughly speaking, the strategy keeps genes that have at least min.count reads in a worthwhile number samples.
+# Após a inicialização da DGEList, o primeiro passo é filtrar genes que
+# não são muito expressos nas amostras normais e tumorais.
+# O método utilizado pela função abaixo foi descrito por Chen et al (2016).
 dge_list <- dge_list[edgeR::filterByExpr(dge_list), , keep.lib.sizes=FALSE]
 
-# Library size normalization
+# Normaliza as contagens por tamanho da biblioteca (numero de leituras totais por amostra).
 dge_list <- edgeR::calcNormFactors(dge_list)
-# Maximizes the negative binomial conditional common likelihood to estimate a common dispersion value across all genes
+# Estima um valor de dispersão comum entre todos os genes.
 dge_list <- edgeR::estimateCommonDisp(dge_list)
-# Estimates tagwise dispersion values by an empirical Bayes method based on weighted conditional maximum likelihood
+# Estima mais valores de dispersão.
 dge_list <- edgeR::estimateTagwiseDisp(dge_list)
 
-# Classical differential expression test
-# The exact test is only applicable to experiments with a single factor
-# Check EdgeR's docs for other approaches considering more complex experiments
+# Realiza um teste clássico de expressão diferencial.
+# Esse teste é aplicável somente para experimentos com um fator único.
+# Verifique a documentação para abordagens que consideram experimentos mais complexos.
 exact_test <- edgeR::exactTest(dge_list)
 
-# Create a table of the top differentially expressed genes/tags
-# Using n = Inf (Infinite) to return all genes instead of only the top 10
-# Resulting table is sorted by p-value
+# Cria uma tabela com os genes que tem melhores evidências de serem diferencialmente expressos no topo.
+# Ao utilizar n = Inf (de inifinito) todos os genes são retornados, ao invés dos 10 "melhores".
+# A tabela resultante está ordenada pelo valor de p.
 top_genes <- edgeR::topTags(exact_test, n = Inf)
 
-# Save EdgeR's results
-write.table(top_genes$table, file = paste("Tables", paste0(TCGA_project,  "-TumorXNormal-EdgeR.tsv"), sep="/"))
+# Salva a tabela de resultados em um arquivo.
+write.table(top_genes$table, file = paste(tables_dir, paste0(TCGA_project,  "-TumorXNormal-EdgeR.tsv"), sep="/"))
 

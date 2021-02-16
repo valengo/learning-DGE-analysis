@@ -1,39 +1,48 @@
-# Title     : Differential expression analysis with DESeq2
-# Objective : To employ DESeq2 for differential expression analysis
+# Title     : Análise de expressão diferencial com DESeq2
+# Objective : Aplicar o pacote DESeq2 para fazer análise de expressão diferencial de genes
 # Created by: valengo
 # Created on: 09/02/21
 
+# Carrega o arquivo com as variáveis que definimos para esse projeto. Ex: o ID do projeto TCGA de interesse.
+# Se você já fez isso nessa sessão, não precisa repetir
 source("01-project-setup.R")
 
-# Loading data from files created with 02-TCGA-preprocess
+# Lê as tabelas que criamos e salvamos em arquivos na fase de pré-processamento
+# dos dados do TCGA.
 count_table <- read.table(count_table_filename)
+
+# Lê os dados de grupos que cada amostra na tabela count_table pertence.
+# Essa lista também foi gerada na fase de pré-processamento.
 groups_file_connection <- file(groups_filename)
 groups <- readLines(groups_file_connection)
 close(groups_file_connection)
 
-# Create a data.frame as needed for input in DESeq2
-# Rows of this data.frame correspond to columns of countData (sample's identifiers)
+
+# Cria um data.frame que é necessário como entrada para o DESeq2.
+# As linhas desse data.frame correspondem aos nomes das colunas de countData,
+# que são os identificadores das amostras.
 design <- data.frame(
   row.names = colnames(count_table),
   condition = as.factor(groups)
 )
 
-# The DESeq2 model internally corrects for library size, so transformed or normalized values such as
-# counts scaled by library size should not be used as input
+# DESeq2 realiza as normalizações internamente.
+# Portanto, não precisamos rodar algum comando para normalizar por tamanho de biblioteca, por exemplo.
 dds <- DESeq2::DESeqDataSetFromMatrix(countData = count_table, colData = design, design = ~condition)
 
-# Perform differential expression analysis based on the Negative Binomial (a.k.a. Gamma-Poisson) distribution
+# Realiza análise de expressão diferencial com base na Distribuição binomial negativa (a.k.a Gamma-Poisson).
 dds <- DESeq2::DESeq(dds)
 
-# Collect results from a DESeq analysis
+# Coleta os resultados da análise
 dge_results <- DESeq2::results(dds)
 
-# Results ordered by pvalue
+# Ordena os resultados pelo valor de p
 resOrdered <- dge_results[order(dge_results$pvalue),]
 
-# You can also filter by p-value by replacing Inf (Infinite) with your desired value
-# When using Inf, all genes will be kept
+# Se quiser, pode mudar o Inf (de infinito) para o valor de corte desejado para p.
+# Caso contrário, todos os genes serão mantidos na tabela e serão salvos no arquivo.
 resSig <- subset(resOrdered, padj < Inf)
 
-write.table(resSig, file = paste("Tables", paste0(TCGA_project,  "-TumorXNormal-DESeq2.tsv"), sep="/"))
+# Salva os resultados (tabela) das análises em um arquivo.
+write.table(resSig, file = paste(tables_dir, paste0(TCGA_project,  "-TumorXNormal-DESeq2.tsv"), sep="/"))
 

@@ -1,26 +1,27 @@
-# Title     : Project's dependecies
-# Objective : To unify all depedencies in a unique place
+# Title     : Dependências de Projeto
+# Objective : Unificar todas as dependências em um único lugar
 # Created by: valengo
 # Created on: 09/02/21
 
-
-# In this project we're using the renv package to create a project-local R dependency management
-# The idea is to create a virtual environment that isolates this project from the base environment
-# In other words, renv allows us to create a local library isolated from our regular user library.
-# In addition, by using renv it's possible to create reproducible environments for our projects
-# Because package names, versions and sources will be installed as specified in the virtual environment
-# You can read more about renv on https://rstudio.github.io/renv/
+# Nesse projeto estamos utilizando o pacote renv para gerenciar as dependências do projeto de forma local.
+# A ideia é criar um ambiente virtual que isole esse projeto do ambiente base que está na sua máquina.
+# Em outras palavras, o renv permite que criemos uma biblioteca (library) específica para o projeto que é
+# isolada da sua library de usuário(a). Todos os pacotes vão ser instalados na pasta 'renv' desse projeto.
+#
+# Além disso, quando usamos renv é possível criar ambientes reproduzíveis para nossos projetos.
+# Porque os nomes dos pacotes, versões e fontes serão instalados como especificado no ambiente virtual (renv.lock)
+# Você pode aprender mais sobre renv em https://rstudio.github.io/renv/
 if (!requireNamespace("renv", quietly = TRUE))
   install.packages("renv")
 
-# Run this in order to install the dependencies controlled by renv and you're ready to go
+# Para instalar os pacotes utilizando renv, basta rodar o comando abaixo.
 renv::restore()
 
-# Run this ONLY if you want to update the virtual environment after installing or removing a package
+# Utilize o comando abaixo SOMENTE se você quiser atualizar o ambiente virtual
+# depois de instalar ou remover algum pacote.
 renv::snapshot()
 
-# In case you DON'T WANT TO use renv
-# Install packages manually
+# Caso você NÃO QUEIRA usar o renv, instale os pacotes manualmente:
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 
