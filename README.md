@@ -1,4 +1,4 @@
-# 🤓 Aprendendo análise de expressão diferencial de genes na prática
+# 🤓 Aprendendo análise de expressão diferencial a partir de dados de RNAseq na prática
 Aqui você pode encontrar scripts que podem te dar um ponto de partida para trabalhar com expressão diferencial de genes utilizando diversos pacotes R, como [edgeR](http://bioconductor.org/packages/release/bioc/html/edgeR.html) e [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html). Além disso, estão disponíveis scripts para baixar e pré-processar dados de contagem de RNAseq do [TCGA](https://www.cancer.gov/about-nci/organization/ccg/research/structural-genomics/tcga) que estão hospedados no [portal GDC](https://portal.gdc.cancer.gov). Esse projeto foi testado utilizando a versão 4.0.3 do R.
 
 # 🎯 Recomendações gerais
