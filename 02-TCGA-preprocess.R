@@ -19,6 +19,7 @@ save_TCGA_data_as_table(paste(tumor_data_path, TCGA_project, sep = "/"), tumor_f
 
 # Baixa e salva dados de contagem de leituras por gene a partir de dados de RNAseq
 # de amostras não tumorais do TCGA usando funções definidas em utils.R.
+download_TCGA_data(TCGA_project, "Solid Tissue Normal", normal_data_path)
 save_TCGA_data_as_table(paste(normal_data_path, TCGA_project, sep = "/"), normal_file_name)
 
 # Lê os dados que foram baixados em duas tabelas (tumor e normal).
