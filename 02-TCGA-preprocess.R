@@ -9,6 +9,7 @@
 source("utils/utils.R")
 
 # Carrega o arquivo com as variáveis que definimos para esse projeto. Ex: o ID do projeto TCGA de interesse.
+# Se você já fez isso nessa sessão ou rodou os comandos no arquivo em si, não precisa repetir.
 source("01-project-setup.R")
 
 # Baixa e salva dados de contagem de leituras por gene a partir de dados de RNAseq

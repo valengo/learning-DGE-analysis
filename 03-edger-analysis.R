@@ -4,7 +4,7 @@
 # Created on: 09/02/21
 
 # Carrega o arquivo com as variáveis que definimos para esse projeto. Ex: o ID do projeto TCGA de interesse.
-# Se você já fez isso nessa sessão, não precisa repetir
+# Se você já fez isso nessa sessão ou rodou os comandos no arquivo em si, não precisa repetir.
 source("01-project-setup.R")
 
 # Lê as tabelas que criamos e salvamos em arquivos na fase de pré-processamento
